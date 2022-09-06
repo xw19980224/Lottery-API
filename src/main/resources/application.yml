@@ -1,0 +1,24 @@
+server:
+  port: 9001
+
+# ??nacos?????????
+nacos:
+  discovery:
+    server-addr: 122.112.145.36:8848
+
+# Dubbo ????????????????????????https://gitcode.net/KnowledgePlanet/Lottery/-/issues/1
+dubbo:
+  application:
+    name: Lottery-API
+    version: 1.0.0
+  registry:
+    address: nacos://122.112.145.36:8848
+  protocol:
+    name: dubbo
+    port: -1
+
+wx:
+  config:
+    originalid: gh_0ea532e7a791
+    appid: wx5ace327c366c0d62
+    token: xwbughome

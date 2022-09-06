@@ -1,4 +1,4 @@
-package com.xw.lottery;
+package com.xw.lottery.api;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

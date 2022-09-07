@@ -32,7 +32,7 @@ public class SpringRunnerTest {
             String accessToken = wxTokenService.getAccessToken();
             logger.info(accessToken);
         } catch (Exception e) {
-            logger.info(e.getMessage());
+            logger.error(e.getMessage());
         }
     }
 }

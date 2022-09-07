@@ -28,6 +28,6 @@ wx:
     originalid: gh_0ea532e7a791
     appid: wx5ace327c366c0d62
     token: xwbughome
-    secret: d761add28e882ffe985fe5565b91bd67
+    secret: ba076273d04635cf05a43b1e7cbff3a1
     url:
       getToken: https://api.weixin.qq.com/cgi-bin/token

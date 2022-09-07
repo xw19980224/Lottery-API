@@ -73,12 +73,12 @@ public class TokenServiceImpl implements ITokenService {
      * @return 调用结果
      */
     protected String doGetAccessToken() {
-        Map<String, String> paramsMap = new HashMap<>();
-        paramsMap.put(TokenConst.GRANT_TYPE, GRANT_TYPE_VALUE);
-        paramsMap.put(TokenConst.APP_ID, appId);
-        paramsMap.put(TokenConst.SECRET, secret);
+        JSONObject paramsObj = new JSONObject();
+        paramsObj.put(TokenConst.GRANT_TYPE, GRANT_TYPE_VALUE);
+        paramsObj.put(TokenConst.APP_ID, appId);
+        paramsObj.put(TokenConst.SECRET, secret);
 
-        String params = paramsMap.toString();
+        String params = paramsObj.toJSONString();
 
         return HttpClient.sendGetRequest(targetUrl, params);
     }

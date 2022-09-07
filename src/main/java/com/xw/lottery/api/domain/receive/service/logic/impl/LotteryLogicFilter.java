@@ -36,7 +36,7 @@ public class LotteryLogicFilter implements LogicFilter {
             return "抽奖💐 提示：" + drawRes.getInfo();
         }
 
-        return "恭喜💐 您已中奖：" + awardDTO.getAwardName() + " - Lottery 抽奖系统测试";
+        return "恭喜💐 您已中奖：" + awardDTO.getAwardName() + " - Lottery 抽奖系统测试(商品无法兑换)";
     }
 
 

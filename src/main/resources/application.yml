@@ -1,12 +1,18 @@
 server:
   port: 9001
 
-# ??nacos?????????
 nacos:
   discovery:
     server-addr: 122.112.145.36:8848
 
-# Dubbo ????????????????????????https://gitcode.net/KnowledgePlanet/Lottery/-/issues/1
+spring:
+  redis:
+    database: 0
+    host: 101.35.221.49    # Redis服务器地址，修改为你的地址
+    port: 6379          # Redis服务器连接端口
+    password: '0224'           # Redis服务器连接密码（默认为空）
+    timeout: 3000       # Redis服务器链接超时配置
+
 dubbo:
   application:
     name: Lottery-API
@@ -22,3 +28,6 @@ wx:
     originalid: gh_0ea532e7a791
     appid: wx5ace327c366c0d62
     token: xwbughome
+    secret: d761add28e882ffe985fe5565b91bd67
+    url:
+      getToken: https://api.weixin.qq.com/cgi-bin/token

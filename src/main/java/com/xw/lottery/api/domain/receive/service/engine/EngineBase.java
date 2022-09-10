@@ -1,9 +1,13 @@
 package com.xw.lottery.api.domain.receive.service.engine;
 
+import com.google.common.base.Strings;
 import com.xw.lottery.api.domain.receive.model.BehaviorMatter;
 import com.xw.lottery.api.domain.receive.service.logic.LogicFilter;
+import com.xw.lottery.api.infrastructure.common.Constants;
 
 import java.util.Map;
+
+import static com.xw.lottery.api.infrastructure.utils.sdk.WeChatConstant.*;
 
 /**
  * @ClassName: EngineBase
@@ -30,13 +34,14 @@ public class EngineBase extends EngineConfig implements Engine {
         Map<String, LogicFilter> logicGroup = logicFilterMap.get(request.getMsgType());
 
         // 事件处理
-        if ("event".equals(request.getMsgType())) {
+        if (REQ_MESSAGE_TYPE_EVENT.equals(request.getMsgType())) {
             return logicGroup.get(request.getEvent());
         }
 
         // 内容处理
-        if ("text".equals(request.getMsgType())) {
-            return logicGroup.get("lottery");
+        if (REQ_MESSAGE_TYPE_TEXT.equals(request.getMsgType())) {
+            String key = Constants.MsgActionEnum.getKey(request.getContent());
+            return logicGroup.get(key);
         }
 
         return null;

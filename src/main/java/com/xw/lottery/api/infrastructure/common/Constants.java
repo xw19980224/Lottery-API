@@ -42,4 +42,38 @@ public class Constants {
             return LOTTERY_XW_TOKEN + appId;
         }
     }
+
+    /**
+     * 消息关键字
+     */
+    public enum MsgActionEnum {
+
+        ACTIVE_DIRECTORY("活动目录", "activeDirectory"),
+        LUCKY_DRAW("抽奖", "lottery");
+
+        private final String msg;
+        private final String key;
+
+        MsgActionEnum(String msg, String key) {
+            this.msg = msg;
+            this.key = key;
+        }
+
+        public String getMsg() {
+            return msg;
+        }
+
+        public String getKey() {
+            return key;
+        }
+
+        public static String getKey(String msg) {
+            for (MsgActionEnum msgActionEnum : MsgActionEnum.values()) {
+                if (msgActionEnum.getMsg().equals(msg)) {
+                    return msgActionEnum.getKey();
+                }
+            }
+            return null;
+        }
+    }
 }

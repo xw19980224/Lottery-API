@@ -2,6 +2,7 @@ package com.xw.lottery.api.domain.menu;
 
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.base.Strings;
+import com.google.common.collect.Lists;
 import com.xw.lottery.api.application.IWxMenuService;
 import com.xw.lottery.api.application.IWxTokenService;
 import com.xw.lottery.api.domain.exception.LotteryException;
@@ -10,15 +11,19 @@ import com.xw.lottery.api.domain.menu.model.SubButton;
 import com.xw.lottery.api.domain.support.http.WxHttpService;
 import com.xw.lottery.api.infrastructure.common.Constants;
 import com.xw.lottery.api.infrastructure.common.XwResponse;
-import com.xw.lottery.api.infrastructure.utils.HttpClient;
+import com.xw.lottery.rpc.activity.deploy.ILotteryActivityDeploy;
+import com.xw.lottery.rpc.activity.deploy.dto.ActivityDTO;
+import com.xw.lottery.rpc.activity.deploy.req.ActivityPageReq;
+import com.xw.lottery.rpc.activity.deploy.res.ActivityRes;
+import org.apache.dubbo.config.annotation.DubboReference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-
-import static com.xw.lottery.api.infrastructure.common.Constants.*;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @ClassName: WxMenuServicelmpl
@@ -38,6 +43,9 @@ public class WxMenuServiceImpl implements IWxMenuService {
     @Resource
     private IWxTokenService wxTokenService;
 
+    @DubboReference
+    private ILotteryActivityDeploy lotteryActivityDeploy;
+
     @Value("${wx.config.url.address.createMenu}")
     private String targetUrl;
 
@@ -47,6 +55,7 @@ public class WxMenuServiceImpl implements IWxMenuService {
         // 1、 构建参数
         Button button = BuildMenuParam();
         String params = JSONObject.toJSONString(button);
+        System.out.println(params);
 
         // 2、发送请求
         String response = "";
@@ -72,17 +81,34 @@ public class WxMenuServiceImpl implements IWxMenuService {
      */
     private String sentCreateMenuRequestToWx(String params) throws Exception {
         String accessToke = wxTokenService.getAccessToken();
-        if (Strings.isNullOrEmpty(accessToke))
+        if (Strings.isNullOrEmpty(accessToke)) {
             throw new LotteryException("sendPostRequestNeedToken 获取accessToken 获取失败");
+        }
         return wxMenuService.sendPostRequest(targetUrl + "?access_token=" + accessToke, params);
     }
 
     private Button BuildMenuParam() {
         Button button = new Button();
         SubButton subButton = new SubButton();
-        subButton.setName(MsgActionEnum.ACTIVE_DIRECTORY.getMsg());
-        subButton.setType(ButtonType.CLICK);
-        subButton.setKey(MsgActionEnum.ACTIVE_DIRECTORY.getKey());
+        subButton.setName("活动目录");
+        List<SubButton> subButtons = Lists.newArrayList();
+
+        ActivityRes activityRes = lotteryActivityDeploy.queryActivityListByPageForErp(new ActivityPageReq(1, 10));
+        if (Constants.ResponseCode.SUCCESS.getCode().equals(activityRes.getResult().getCode())) {
+            List<ActivityDTO> activityDTOList = activityRes.getActivityDTOList();
+            subButtons = activityDTOList
+                    .stream()
+                    .filter(item -> item.getState().equals(Constants.ActivityState.DOING.getCode()))
+                    .map(item -> {
+                        SubButton sub = new SubButton();
+                        sub.setType(Constants.ButtonType.CLICK);
+                        sub.setName(item.getActivityName());
+                        sub.setKey(String.valueOf(item.getActivityId()));
+                        return sub;
+                    })
+                    .collect(Collectors.toList());
+        }
+        subButton.setSub_button(subButtons);
         button.add(subButton);
         return button;
     }

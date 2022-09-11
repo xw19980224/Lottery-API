@@ -12,9 +12,9 @@ import org.springframework.stereotype.Service;
  * @Version: 1.0
  */
 @Service
-public class ActiveDirectoryLogicFilter implements LogicFilter {
+public class ClickLogicFilter implements LogicFilter {
     @Override
     public String filter(BehaviorMatter request) {
-        return null;
+        return "活动目录";
     }
 }

@@ -9,6 +9,8 @@ package com.xw.lottery.api.infrastructure.common;
  */
 public class Constants {
 
+    public static final String WX_SUCCESS_CODE = "0";
+
     /**
      * 获取Access_Token常量类
      */
@@ -75,5 +77,22 @@ public class Constants {
             }
             return null;
         }
+    }
+
+    /**
+     * 按钮类型
+     */
+    public static final class ButtonType{
+        public static final String CLICK = "click";
+        public static final String VIEW = "view";
+        public static final String SCANCODE_PUSH= "scancode_push";
+        public static final String SCANCODE_WAITMSG = "scancode_waitmsg";
+        public static final String PIC_SYSPHOTO = "pic_sysphoto";
+        public static final String PIC_PHOTO_OR_ALBUM = "pic_photo_or_album";
+        public static final String PIC_WEIXIN= "pic_weixin";
+        public static final String LOCATION_SELECT = "location_select";
+        public static final String MEDIA_ID = "media_id";
+        public static final String ARTICLE_ID = "article_id";
+        public static final String ARTICLE_VIEW_LIMITED = "article_view_limited";
     }
 }

@@ -2,6 +2,7 @@ package com.xw.lottery.api.domain.validate.service.token.impl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.base.Strings;
+import com.xw.lottery.api.domain.support.http.WxHttpService;
 import com.xw.lottery.api.domain.validate.service.token.ITokenService;
 import com.xw.lottery.api.infrastructure.utils.HttpClient;
 import com.xw.lottery.api.infrastructure.utils.RedisUtil;
@@ -33,10 +34,13 @@ public class TokenServiceImpl implements ITokenService {
     @Value("${wx.config.secret}")
     private String secret;
 
-    @Value("${wx.config.url.getToken}")
+    @Value("${wx.config.url.address.getToken}")
     private String targetUrl;
 
     private static final String GRANT_TYPE_VALUE = "client_credential";
+
+    @Resource
+    private WxHttpService wxHttpService;
 
     @Resource
     private RedisUtil redisUtil;
@@ -58,7 +62,7 @@ public class TokenServiceImpl implements ITokenService {
                 throw new LoggingException("获取微信公众号AccessToken失败！message:" + response);
             }
             // 4、设置缓存
-            redisUtil.set(key, accessToken, 600);
+            redisUtil.set(key, accessToken, 7200);
         } else {
             accessToken = String.valueOf(accessTokenCache);
         }
@@ -76,7 +80,7 @@ public class TokenServiceImpl implements ITokenService {
 
         String urlFormat = targetUrl + "?grant_type=%s&appid=%s&secret=%s";
         String url = String.format(urlFormat, GRANT_TYPE_VALUE, appId, secret);
-        return HttpClient.sendGetRequest(url, "");
+        return wxHttpService.sendGetRequest(url, "");
     }
 
     /**

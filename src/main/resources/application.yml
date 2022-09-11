@@ -25,9 +25,15 @@ dubbo:
 
 wx:
   config:
-    originalid: gh_0ea532e7a791
-    appid: wx5ace327c366c0d62
+    originalid: gh_d1f182497123
+    appid: wxeb4d761de1aa9c3a
     token: xwbughome
-    secret: ba076273d04635cf05a43b1e7cbff3a1
+    secret: ad13ada3accc9c2a06edc6d839114fde
+    #    originalid: gh_0ea532e7a791
+    #    appid: wx5ace327c366c0d62
+    #    secret: ba076273d04635cf05a43b1e7cbff3a1
     url:
-      getToken: https://api.weixin.qq.com/cgi-bin/token
+      domain: https://api.weixin.qq.com
+      address:
+        getToken: /cgi-bin/token
+        createMenu: /cgi-bin/menu/create

@@ -1,5 +1,6 @@
 package com.xw.lottery.api;
 
+import com.xw.lottery.api.application.IWxMenuService;
 import com.xw.lottery.api.application.IWxTokenService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,15 +25,19 @@ public class SpringRunnerTest {
     private Logger logger = LoggerFactory.getLogger(SpringRunnerTest.class);
 
     @Resource
+    private IWxMenuService wxMenuService;
+
+    @Resource
     private IWxTokenService wxTokenService;
 
     @Test
     public void test_drawExec() {
-        try {
-            String accessToken = wxTokenService.getAccessToken();
-            logger.info(accessToken);
-        } catch (Exception e) {
-            logger.error(e.getMessage());
-        }
+        wxMenuService.createMenu();
+    }
+
+    @Test
+    public void test_token() throws Exception {
+        String accessToken = wxTokenService.getAccessToken();
+        System.out.println(accessToken);
     }
 }

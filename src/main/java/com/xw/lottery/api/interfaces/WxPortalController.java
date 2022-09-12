@@ -84,6 +84,7 @@ public class WxPortalController {
             behaviorMatter.setMsgType(message.getMsgType());
             behaviorMatter.setContent(StringUtils.isBlank(message.getContent()) ? null : message.getContent().trim());
             behaviorMatter.setEvent(message.getEvent());
+            behaviorMatter.setEventKey(message.getEventKey());
             behaviorMatter.setCreateTime(new Date(Long.parseLong(message.getCreateTime()) * 1000L));
             // 处理消息
             String result = wxReceiveService.doReceive(behaviorMatter);

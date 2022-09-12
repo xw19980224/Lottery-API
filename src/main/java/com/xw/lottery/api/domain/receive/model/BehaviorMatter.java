@@ -15,6 +15,7 @@ public class BehaviorMatter {
     private String msgType;
     private String content;
     private String event;
+    private String eventKey;
     private Date createTime;
 
     public String getOpenId() {
@@ -55,6 +56,14 @@ public class BehaviorMatter {
 
     public void setEvent(String event) {
         this.event = event;
+    }
+
+    public String getEventKey() {
+        return eventKey;
+    }
+
+    public void setEventKey(String eventKey) {
+        this.eventKey = eventKey;
     }
 
     public Date getCreateTime() {
